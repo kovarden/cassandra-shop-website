@@ -1,0 +1,6 @@
+*.pyc
+django.log
+django.log*
+settings_dev.py
+.static/*
+.media/*

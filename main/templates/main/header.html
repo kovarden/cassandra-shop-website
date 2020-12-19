@@ -1,0 +1,94 @@
+{% load static %}
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img
+                        src="{% static 'main/img/logo.svg' %}"
+                        height="64"
+                        alt="Logo"
+                        loading="lazy"
+                    />
+                    <h1 class="font-weight-light">LOGO</h1>
+                </a>
+
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarCollapse"
+                    aria-controls="navbarCollapse"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                   <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse flex-column align-items-end" id="navbarCollapse">
+                    <!-- navbar1 -->
+                    <div class="navbar-nav mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Log In</a>
+                        </li>
+                    </div>
+
+                    <!-- navbar2 -->
+                    <ul class="navbar-nav mt-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" aria-current="page" href="#"><i class="fas fa-home"></i>Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            >Products</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar -->
+
+        <div class="search_block">
+            <div class="container pt-4 pb-4">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="input-group input-group-lg">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <select class="browser-default custom-select custom-select-lg" id="searchCategory" aria-label="Example select with button addon">
+                                    <option value="all" selected>All Categories</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-md btn-outline-mdb-color m-0 px-3 py-2 z-depth-0 waves-effect" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="row">
+                            <div class="col-3"><i class="fas fa-headphones-alt fa-2x mt-2"></i></div>
+                            <div class="col-9 font-weight-light">
+                                <span>SUPPORT 24/7</span>
+                                <span>8 800 5553535</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
