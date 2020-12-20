@@ -4,6 +4,36 @@
 {% block title %}Main page{% endblock %}
 
 {% block content %}
-    <h1>Main page</h1>
-    <p>Main page</p>
+<div class="container bg-white p-3 px-4 my-3">
+    <span class="h4-responsive fw-light">Hottest goods in "***"</span>
+</div>
+<div class="container bg-white p-3 px-4 my-3">
+    <div class="row">
+        {% for i in "x"|rjust:"12" %}
+            <div class="product-card col-12 col-sm-6 col-md-4 col-lg-3 p-3">
+                <div class="card">
+                    <div class="p-2">
+                        <img
+                                src="https://mdbootstrap.com/img/new/standard/city/044.jpg"
+                                class="card-img-top rounded z-depth-1"
+                                alt="..."
+                        />
+                    </div>
+                    <div class="card-body card-body-cascade text-center">
+                        <p class="card-title m-0">
+                            <span class="h4-responsive fw-light">Yellow duck</span>
+                        </p>
+                        <p class="card-text text-center m-0">
+                            <span class="h4-responsive fw-light">59,99$</span>
+                        </p>
+                        <a href="#" class="stretched-link"><div
+                            class="mask waves-effect waves-light rgba-white-slight"
+                            mdbWavesEffect
+                        ></div></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

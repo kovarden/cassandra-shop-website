@@ -34,23 +34,11 @@
 
                     <!-- navbar2 -->
                     <ul class="navbar-nav mt-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" aria-current="page" href="#"><i class="fas fa-home"></i>Home</a>
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" aria-current="page" href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            >Products</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'about' %}">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
@@ -64,7 +52,7 @@
         <div class="search_block">
             <div class="container pt-4 pb-4">
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-12 col-md-9 col-lg-10 pr-5">
                         <div class="input-group input-group-lg">
                             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
                             <div class="input-group-append">
@@ -80,13 +68,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-12 col-md-3 col-lg-2 p-0">
                         <div class="row">
-                            <div class="col-3"><i class="fas fa-headphones-alt fa-2x mt-2"></i></div>
-                            <div class="col-9 font-weight-light">
-                                <span>SUPPORT 24/7</span>
-                                <span>8 800 5553535</span>
-                            </div>
+                                <i class="fas fa-headphones-alt fa-2x mt-2 pl-2"></i>
+                                <div class="col-9 font-weight-light">
+                                    <p class="m-0">SUPPORT 24/7</p>
+                                    <p class="m-0">8 800 5553535</p>
+                                </div>
                         </div>
                     </div>
                 </div>

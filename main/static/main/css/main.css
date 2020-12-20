@@ -5,3 +5,25 @@ body {
 .search_block {
     background: #F0F0F0;
 }
+
+header .navbar-nav li {
+    display: block;
+    transition: transform .6s ease;
+}
+
+header .navbar-nav li:hover, header .navbar-nav a:hover {
+    color: #000;
+    transform: scale(1.05);
+}
+
+.product-card {
+    transition: transform .6s ease;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: scale(1.01);
+}
+.product-card img {
+    margin-top: -1rem !important;
+}
