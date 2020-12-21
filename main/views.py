@@ -1,7 +1,31 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth import authenticate, login
+from django.views.generic import ListView, DetailView
 
 from .models import *
 from .forms import *
+
+
+def login_view(request):
+    email = 'admin'
+    password = '123123321'
+    pers = UserByEmail.objects.get(email=email)
+    hash = pers.password  # получаем хэш из базы
+    user = authenticate(email=email, password=password)
+    #
+    # error = ''
+    # if request.method == 'POST':
+    #     form = AuthorizationForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('index')
+    #     else:
+    #         error = 'Неверно заполенные данные'
+    # cat_list = CategoryByUrl.objects.all()
+    # form = CategoryForm()
+    # return render(request, 'main/create_category.html', context={'cat_list': cat_list, 'form': form, 'error': error})
+    return HttpResponse(user.id)
+
 
 def index(request):
     cat_list = CategoryByUrl.objects.all()
@@ -9,7 +33,6 @@ def index(request):
     products_by_category = {
         category: ProductsSortedByRating.objects.filter(cat_url=category.url)[:12] for category in cat_list
     }
-    print(products_by_category)
     data = {
         'title': 'Main page',
         'products_by_category': products_by_category,
@@ -17,16 +40,30 @@ def index(request):
     return render(request, 'main/index.html', context=data)
 
 
-def products_in_category(request, cat_url):
-    category = CategoryByUrl.objects.get(url=cat_url)
-    products = ProductsSortedByRating.objects.filter(cat_url=category.url)[:40]
-    return render(request, 'main/category.html', context={'title': category.name, 'category': category, 'products': products})
+class ProductCategoryMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(ProductCategoryMixin, self).get_context_data(**kwargs)
+        context['category'] = CategoryByUrl.objects.get(url=self.kwargs['cat_url'])
+        return context
 
 
-def product_info(request, cat_url, product_url):
-    product = ProductByUrl.objects.get(cat_url=cat_url, url=product_url)
-    category = CategoryByUrl.objects.get(url=cat_url)
-    return render(request, 'main/product.html', context={'title': product.title, 'category': category, 'product': product})
+class ProductDetailsByCategory(ProductCategoryMixin, ListView):
+    model = ProductsSortedByRating
+    template_name = 'main/category.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return ProductsSortedByRating.objects.filter(cat_url=self.kwargs['cat_url'])
+
+
+class ProductDetailView(ProductCategoryMixin, DetailView):
+    model = ProductByUrl
+    template_name = 'main/product.html'
+    context_object_name = 'product'
+
+    def get_object(self):
+        print(ProductByUrl.objects.get(cat_url=self.kwargs['cat_url'], url=self.kwargs['product_url']).title)
+        return ProductByUrl.objects.get(cat_url=self.kwargs['cat_url'], url=self.kwargs['product_url'])
 
 
 def create_category(request):

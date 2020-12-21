@@ -133,3 +133,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+AUTHENTICATION_BACKENDS = ('main.authentication.MyBackend',)

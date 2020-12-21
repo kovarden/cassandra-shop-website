@@ -1,6 +1,7 @@
 import uuid
 from cassandra.cqlengine import columns
-from django_cassandra_engine.models import DjangoCassandraModel
+from django_cassandra_engine.models import DjangoCassandraModel, DjangoCassandraModelMetaClass
+from django.urls import reverse
 
 
 class CategoryByUrl(DjangoCassandraModel):
@@ -12,31 +13,37 @@ class CategoryByUrl(DjangoCassandraModel):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('category', args=[self.url])
 
-class ProductByUrl(DjangoCassandraModel):
+
+class Product(DjangoCassandraModel):
+    __abstract__ = True
+    price = columns.Double()
+    number_of_ratings = columns.Integer(default=0)
+    title = columns.Text()
+    description = columns.Text()
+
+    def get_absolute_url(self):
+        return reverse('product-detail', args=[self.cat_url, self.url])
+
+
+class ProductByUrl(Product):
     class Meta:
         get_pk_field = 'cat_url'
     cat_url = columns.Text(primary_key=True)
     url = columns.Text(primary_key=True, clustering_order="ASC")
     id = columns.TimeUUID()
-    price = columns.Double()
-    number_of_ratings = columns.Integer(default=0)
     rating = columns.Double(default=0)
-    title = columns.Text()
-    description = columns.Text()
 
 
-class Goods(DjangoCassandraModel):
+class Products(Product):
     class Meta:
         get_pk_field = 'cat_url'
     cat_url = columns.Text(primary_key=True)
     id = columns.TimeUUID(primary_key=True, clustering_order="ASC")
-    price = columns.Double()
     number_of_ratings = columns.Integer(default=0)
     rating = columns.Double(default=0)
-    title = columns.Text()
-    description = columns.Text()
-    url = columns.Text()
 
 
 class GoodsSortedByRating(DjangoCassandraModel):
@@ -45,10 +52,6 @@ class GoodsSortedByRating(DjangoCassandraModel):
     cat_url = columns.Text(primary_key=True)
     rating = columns.Double(primary_key=True, clustering_order="DESC", default=0)
     id = columns.TimeUUID(primary_key=True, clustering_order="DESC")
-    price = columns.Double()
-    number_of_ratings = columns.Integer(default=0)
-    title = columns.Text()
-    description = columns.Text()
     url = columns.Text()
 
 
@@ -61,6 +64,17 @@ class ReviewsByProduct(DjangoCassandraModel):
     date = columns.DateTime()
     text = columns.Text()
     mark = columns.Integer()
+
+
+class ReviewsByUser(DjangoCassandraModel):
+    class Meta:
+        get_pk_field = 'user_id'
+    user_id = columns.TimeUUID(primary_key=True)
+    review_id = columns.TimeUUID(primary_key=True, clustering_order="DESC")
+    product_id = columns.TimeUUID()
+    text = columns.Text()
+    mark = columns.Integer()
+    date = columns.DateTime()
 
 
 class ItemsByOrder(DjangoCassandraModel):
@@ -86,7 +100,7 @@ class UserByEmail(DjangoCassandraModel):
         get_pk_field = 'email'
     email = columns.Text(primary_key=True)
     password = columns.Text()
-    user_id = columns.TimeUUID()
+    id = columns.TimeUUID()
 
 
 class CartByUser(DjangoCassandraModel):
@@ -100,17 +114,6 @@ class CartByUser(DjangoCassandraModel):
 class UserById(DjangoCassandraModel):
     class Meta:
         get_pk_field = 'user_id'
-    user_id = columns.TimeUUID(primary_key=True, default=uuid.uuid1)
+    id = columns.TimeUUID(primary_key=True, default=uuid.uuid1)
     email = columns.Text()
     password = columns.Text()
-
-
-class ReviewsByUser(DjangoCassandraModel):
-    class Meta:
-        get_pk_field = 'user_id'
-    user_id = columns.TimeUUID(primary_key=True)
-    review_id = columns.TimeUUID(primary_key=True, clustering_order="DESC")
-    good_id = columns.TimeUUID()
-    text = columns.Text()
-    mark = columns.Integer()
-    date = columns.DateTime()

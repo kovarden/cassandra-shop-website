@@ -4,6 +4,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+{{ ProductsSortedByRating }}
     {% if products %}
         <div class="container bg-white p-3 px-4 my-3">
             <span class="h4-responsive fw-light">Hottest products in "{{ category.name }}"</span>

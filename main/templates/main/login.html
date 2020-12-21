@@ -5,21 +5,11 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        {% if cat_list %}
-            {% for item in cat_list %}
-                <div class="alert alert-warning mt-2">
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.url }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
             <div class="container bg-white p-3 px-4 my-3">
-                <span class="h4-responsive fw-light">Categories is empty</span>
+                <span class="h4-responsive fw-light">login</span>
             </div>
-        {% endif %}
             <div class="alert alert-warning mt-2">
-                {{ form.name }}<br>
-                {{ form.url }}<br>
+                {{ form }}
                 <button type="submit" class="btn btn-success">Add Category</button>
                 <span>{{ error }}</span>
             </div>
