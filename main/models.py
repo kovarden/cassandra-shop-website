@@ -3,18 +3,22 @@ from cassandra.cqlengine import columns
 from django_cassandra_engine.models import DjangoCassandraModel
 
 
-class CategoriesById(DjangoCassandraModel):
+class CategoryByUrl(DjangoCassandraModel):
     class Meta:
-        get_pk_field = 'cat_id'
-    id = columns.TimeUUID(primary_key=True, default=uuid.uuid1)
-    cat_name = columns.Text()
+        get_pk_field = 'url'
+    url = columns.Text(primary_key=True)
+    name = columns.Text()
+
+    def __str__(self):
+        return self.name
 
 
-class Goods(DjangoCassandraModel):
+class ProductByUrl(DjangoCassandraModel):
     class Meta:
-        get_pk_field = 'cat_id'
-    cat_id = columns.TimeUUID(primary_key=True)
-    id = columns.TimeUUID(primary_key=True, clustering_order="ASC")
+        get_pk_field = 'cat_url'
+    cat_url = columns.Text(primary_key=True)
+    url = columns.Text(primary_key=True, clustering_order="ASC")
+    id = columns.TimeUUID()
     price = columns.Double()
     number_of_ratings = columns.Integer(default=0)
     rating = columns.Double(default=0)
@@ -22,22 +26,36 @@ class Goods(DjangoCassandraModel):
     description = columns.Text()
 
 
+class Goods(DjangoCassandraModel):
+    class Meta:
+        get_pk_field = 'cat_url'
+    cat_url = columns.Text(primary_key=True)
+    id = columns.TimeUUID(primary_key=True, clustering_order="ASC")
+    price = columns.Double()
+    number_of_ratings = columns.Integer(default=0)
+    rating = columns.Double(default=0)
+    title = columns.Text()
+    description = columns.Text()
+    url = columns.Text()
+
+
 class GoodsSortedByRating(DjangoCassandraModel):
     class Meta:
-        get_pk_field = 'cat_id'
-    cat_id = columns.TimeUUID(primary_key=True)
+        get_pk_field = 'cat_url'
+    cat_url = columns.Text(primary_key=True)
     rating = columns.Double(primary_key=True, clustering_order="DESC", default=0)
     id = columns.TimeUUID(primary_key=True, clustering_order="DESC")
     price = columns.Double()
     number_of_ratings = columns.Integer(default=0)
     title = columns.Text()
     description = columns.Text()
+    url = columns.Text()
 
 
-class ReviewsByGood(DjangoCassandraModel):
+class ReviewsByProduct(DjangoCassandraModel):
     class Meta:
-        get_pk_field = 'good_id'
-    good_id = columns.TimeUUID(primary_key=True)
+        get_pk_field = 'product_id'
+    product_id = columns.TimeUUID(primary_key=True)
     review_id = columns.TimeUUID(primary_key=True, clustering_order="DESC")
     user_id = columns.TimeUUID()
     date = columns.DateTime()
@@ -49,7 +67,7 @@ class ItemsByOrder(DjangoCassandraModel):
     class Meta:
         get_pk_field = 'order_id'
     order_id = columns.TimeUUID(primary_key=True)
-    good_id = columns.TimeUUID(primary_key=True, clustering_order="ASC")
+    product_id = columns.TimeUUID(primary_key=True, clustering_order="ASC")
     count = columns.Integer()
     sum = columns.Double()
 

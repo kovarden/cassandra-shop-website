@@ -27,3 +27,11 @@ header .navbar-nav li:hover, header .navbar-nav a:hover {
 .product-card img {
     margin-top: -1rem !important;
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

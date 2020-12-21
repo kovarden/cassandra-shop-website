@@ -1,0 +1,23 @@
+{% extends 'main/layout.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    {% if products %}
+        <div class="container bg-white p-3 px-4 my-3">
+            <span class="h4-responsive fw-light">Hottest products in "{{ category.name }}"</span>
+        </div>
+        <div class="container bg-white p-3 px-4 my-3 mb-5">
+            <div class="row">
+                {% for product in products %}
+                    {% include 'main/product_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="container bg-white p-3 px-4 my-3">
+            <span class="h4-responsive fw-light">"{{ category.name }}" category is empty</span>
+        </div>
+    {% endif %}
+{% endblock %}

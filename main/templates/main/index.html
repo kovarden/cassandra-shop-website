@@ -1,39 +1,35 @@
 {% extends 'main/layout.html' %}
 
 
-{% block title %}Main page{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
 
 {% block content %}
-<div class="container bg-white p-3 px-4 my-3">
-    <span class="h4-responsive fw-light">Hottest goods in "***"</span>
-</div>
-<div class="container bg-white p-3 px-4 my-3">
-    <div class="row">
-        {% for i in "x"|rjust:"12" %}
-            <div class="product-card col-12 col-sm-6 col-md-4 col-lg-3 p-3">
-                <div class="card">
-                    <div class="p-2">
-                        <img
-                                src="https://mdbootstrap.com/img/new/standard/city/044.jpg"
-                                class="card-img-top rounded z-depth-1"
-                                alt="..."
-                        />
-                    </div>
-                    <div class="card-body card-body-cascade text-center">
-                        <p class="card-title m-0">
-                            <span class="h4-responsive fw-light">Yellow duck</span>
-                        </p>
-                        <p class="card-text text-center m-0">
-                            <span class="h4-responsive fw-light">59,99$</span>
-                        </p>
-                        <a href="#" class="stretched-link"><div
-                            class="mask waves-effect waves-light rgba-white-slight"
-                            mdbWavesEffect
-                        ></div></a>
-                    </div>
+{% for category in products_by_category.keys %}
+    <a href="/{{ category.url }}">{{ category }}</a>
+{% endfor %}
+
+{% for category, products in products_by_category.items %}
+    {% if products %}
+        <div class="container bg-white p-3 px-4 my-3">
+            <div class="row">
+                <div class="col-10">
+                    <span class="h4-responsive fw-light push-left">Hottest products in "{{ category.name }}"</span>
+                </div>
+                <div class="col-2">
+                    <p class="h4-responsive fw-light text-right m-0">
+                        <a href="/{{ category.url }}"><i class="fas fa-compress"></i></a>
+                    </p>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-</div>
+        </div>
+        <div class="container bg-white p-3 px-4 my-3 mb-5">
+            <div class="row">
+                {% for product in products %}
+                    {% include 'main/product_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
 {% endblock %}
