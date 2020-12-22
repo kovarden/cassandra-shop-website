@@ -5,7 +5,9 @@
 
 {% block content %}
     <p class="fw-light text-right m-0">
-        <a href="{% url 'create-product' cat_url=category.url %}">Создать категорию</a>
+        <a href="{% url 'update-category' cat_url=category.url %}">Update category</a>
+        <a href="{% url 'delete-category' cat_url=category.url %}">Delete category</a>
+        <a href="{% url 'create-product' cat_url=category.url %}">Create product</a>
     </p>
 {{ ProductsSortedByRating }}
     {% if products %}

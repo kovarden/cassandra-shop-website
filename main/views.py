@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 from .models import *
 from .forms import *
@@ -11,7 +11,9 @@ def login_view(request):
     password = '123123321'
     pers = UserByEmail.objects.get(email=email)
     hash = pers.password  # получаем хэш из базы
-    user = authenticate(email=email, password=password)
+    user = authenticate(request, email=email, password=password)
+    if user is not None:
+        login(request, user)
     #
     # error = ''
     # if request.method == 'POST':
@@ -62,7 +64,6 @@ class ProductDetailView(ProductCategoryMixin, DetailView):
     context_object_name = 'product'
 
     def get_object(self):
-        print(ProductByUrl.objects.get(cat_url=self.kwargs['cat_url'], url=self.kwargs['product_url']).title)
         return ProductByUrl.objects.get(cat_url=self.kwargs['cat_url'], url=self.kwargs['product_url'])
 
 
@@ -78,6 +79,26 @@ def create_category(request):
             error = 'Incorrectly filled data'
     form = CategoryForm()
     return render(request, 'main/create_category.html', context={'form': form, 'error': error})
+
+
+class CategoryUpdateView(UpdateView):
+    model = CategoryByUrl
+    form_class = CategoryForm
+    template_name = 'main/create_category.html'
+    context_object_name = 'category'
+
+    def get_object(self):
+        return CategoryByUrl.objects.get(url=self.kwargs['cat_url'])
+
+
+class CategoryDeleteView(DeleteView):
+    model = CategoryByUrl
+    success_url = '/'
+    template_name = 'main/delete_category.html'
+    context_object_name = 'category'
+
+    def get_object(self):
+        return CategoryByUrl.objects.get(url=self.kwargs['cat_url'])
 
 
 def create_product(request, cat_url):

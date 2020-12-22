@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Delete category{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+            <h1>Delete "{{ category.name }}" category</h1>
+            <div class="alert alert-warning mt-2">
+                {{ category.name }}<br>
+                <button type="submit" class="btn btn-danger">Delete Category</button>
+                <span>{{ error }}</span>
+            </div>
+    </form>
+{% endblock %}

@@ -5,7 +5,9 @@
 
 
 {% block content %}
-
+{% if not user.is_authenticated %}
+{{ user }}
+{% endif %}
 <div class="row">
     <div class="col-6">
         <span class="fw-light push-left">
@@ -16,7 +18,7 @@
     </div>
     <div class="col-6">
         <p class="fw-light text-right m-0">
-            <a href="{% url 'create-category' %}">Создать категорию</a>
+            <a href="{% url 'create-category' %}">Create category</a>
         </p>
     </div>
 </div>
