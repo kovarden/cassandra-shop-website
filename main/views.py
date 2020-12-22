@@ -72,12 +72,29 @@ def create_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('create_category')
+            category = form.save()
+            return redirect(reverse('category', kwargs={'cat_url': category.url}))
         else:
-            error = 'Неверно заполенные данные'
-    cat_list = CategoryByUrl.objects.all()
+            error = 'Incorrectly filled data'
     form = CategoryForm()
-    return render(request, 'main/create_category.html', context={'cat_list': cat_list, 'form': form, 'error': error})
+    return render(request, 'main/create_category.html', context={'form': form, 'error': error})
+
+
+def create_product(request, cat_url):
+    error = ''
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.id = uuid.uuid1()
+            product.cat_url = CategoryByUrl.objects.get(url=cat_url).url
+            product.save()
+            return redirect(reverse('product-detail', kwargs={'cat_url': cat_url, 'product_url': product.url}))
+        else:
+            error = 'Incorrectly filled data'
+    category = CategoryByUrl.objects.get(url=cat_url)
+    form = ProductForm()
+    return render(request, 'main/create_product.html', context={'category': category, 'form': form, 'error': error})
 
 
 def about(request):

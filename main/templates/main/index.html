@@ -5,10 +5,21 @@
 
 
 {% block content %}
-{% for category in products_by_category.keys %}
-    <a href="/{{ category.url }}">{{ category }}</a>
-{% endfor %}
 
+<div class="row">
+    <div class="col-6">
+        <span class="fw-light push-left">
+            {% for category in products_by_category.keys %}
+                <a href="/{{ category.url }}">{{ category }}</a>
+            {% endfor %}
+        </span>
+    </div>
+    <div class="col-6">
+        <p class="fw-light text-right m-0">
+            <a href="{% url 'create-category' %}">Создать категорию</a>
+        </p>
+    </div>
+</div>
 {% for category, products in products_by_category.items %}
     {% if products %}
         <div class="container bg-white p-3 px-4 my-3">

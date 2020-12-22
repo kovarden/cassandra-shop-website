@@ -1,14 +1,16 @@
 {% extends 'main/layout.html' %}
 
-{% block title %}Create category{% endblock %}
+{% block title %}Create product in "{{ title }}" category{% endblock %}
 
 {% block content %}
     <form method="post">
         {% csrf_token %}
             <div class="alert alert-warning mt-2">
-                {{ form.name }}<br>
+                {{ form.title }}<br>
                 {{ form.url }}<br>
-                <button type="submit" class="btn btn-success">Add Category</button>
+                {{ form.price }}<br>
+                {{ form.description }}<br>
+                <button type="submit" class="btn btn-success">Add Product</button>
                 <span>{{ error }}</span>
             </div>
     </form>

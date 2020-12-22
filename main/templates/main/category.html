@@ -4,6 +4,9 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+    <p class="fw-light text-right m-0">
+        <a href="{% url 'create-product' cat_url=category.url %}">Создать категорию</a>
+    </p>
 {{ ProductsSortedByRating }}
     {% if products %}
         <div class="container bg-white p-3 px-4 my-3">

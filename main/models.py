@@ -4,6 +4,18 @@ from django_cassandra_engine.models import DjangoCassandraModel, DjangoCassandra
 from django.urls import reverse
 
 
+class ConsistencyForMultipleModels:
+    def save(self):
+        class_list = (getattr(sys.modules[__name__], model) for model in self.models_list)
+        obj = super(DjangoCassandraModel, self).save()
+        obj_kwargs = {item[0]: item[1] for item in self.items()}
+        for model_class in class_list:
+            if self.__class__ != model_class:
+                sub_obj = model_class(**obj_kwargs)
+                super(DjangoCassandraModel, sub_obj).save()
+        return obj
+
+
 class CategoryByUrl(DjangoCassandraModel):
     class Meta:
         get_pk_field = 'url'
@@ -17,8 +29,9 @@ class CategoryByUrl(DjangoCassandraModel):
         return reverse('category', args=[self.url])
 
 
-class Product(DjangoCassandraModel):
+class Product(ConsistencyForMultipleModels, DjangoCassandraModel):
     __abstract__ = True
+    models_list = ('ProductByUrl', 'Products', 'ProductsSortedByRating')
     price = columns.Double()
     number_of_ratings = columns.Integer(default=0)
     title = columns.Text()
