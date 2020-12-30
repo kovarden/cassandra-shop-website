@@ -120,6 +120,9 @@ class UserById(User):
 
 
 class ReviewsByProduct(DjangoCassandraModel):
+    """
+    Модель колоночного семейства для запроса отзывов по id товара
+    """
     class Meta:
         get_pk_field = 'product_id'
     product_id = columns.TimeUUID(primary_key=True)
@@ -131,6 +134,9 @@ class ReviewsByProduct(DjangoCassandraModel):
 
 
 class ReviewsByUser(DjangoCassandraModel):
+    """
+    Модель колоночного семейства для запроса отзывов по id пользователя
+    """
     class Meta:
         get_pk_field = 'user_id'
     user_id = columns.TimeUUID(primary_key=True)
@@ -142,6 +148,9 @@ class ReviewsByUser(DjangoCassandraModel):
 
 
 class ItemsByOrder(DjangoCassandraModel):
+    """
+    Модель колоночного семейства для запроса товаров по id заказа
+    """
     class Meta:
         get_pk_field = 'order_id'
     order_id = columns.TimeUUID(primary_key=True)
@@ -151,6 +160,9 @@ class ItemsByOrder(DjangoCassandraModel):
 
 
 class OrdersByUser(DjangoCassandraModel):
+    """
+    Модель колоночного семейства для запроса заказов по id пользователя
+    """
     class Meta:
         get_pk_field = 'user_id'
     user_id = columns.TimeUUID(primary_key=True)
@@ -160,6 +172,9 @@ class OrdersByUser(DjangoCassandraModel):
 
 
 class CartByUser(DjangoCassandraModel):
+    """
+    Модель колоночного семейства для запроса товаров в корзине по id пользователя
+    """
     class Meta:
         get_pk_field = 'user_id'
     user_id = columns.TimeUUID(primary_key=True)

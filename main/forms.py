@@ -6,6 +6,9 @@ from .models import *
 
 
 class CategoryForm(ModelForm):
+    """
+    Форма представления категроии на странице
+    """
     class Meta:
         model = CategoryByUrl
         fields = ['name', 'url']
@@ -22,6 +25,9 @@ class CategoryForm(ModelForm):
 
 
 class ProductForm(ModelForm):
+    """
+    Форма представления товара на странице
+    """
     class Meta:
         model = ProductByUrl
         fields = ['title', 'url', 'price', 'description']
