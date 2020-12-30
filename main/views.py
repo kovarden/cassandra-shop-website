@@ -1,19 +1,37 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView, FormView
+import hashlib
 
 from .models import *
 from .forms import *
 
 
-def login_view(request):
-    email = 'admin'
-    password = '123123321'
-    pers = UserByEmail.objects.get(email=email)
-    hash = pers.password  # получаем хэш из базы
-    user = authenticate(request, email=email, password=password)
+def login(request, user):
     if user is not None:
-        login(request, user)
+        request.session['user_id'] = str(user.id)
+        request.session['hash'] = user.password
+    return request
+
+def login_view(request):
+    error = ''
+    if request.method == 'POST':
+        form = SignInForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
+            if user is not None:
+                request.session['user_id'] = str(user.id)
+                request.session['hash'] = user.password
+                request.session.modified = True
+                print(request.session.items())
+            return render(request, 'main/signin.html', context={'form': form, 'error': error})
+        else:
+            error = 'Incorrectly filled data'
+    form = SignInForm()
+    return render(request, 'main/signin.html', context={'form': form, 'error': error})
     #
     # error = ''
     # if request.method == 'POST':
@@ -26,7 +44,7 @@ def login_view(request):
     # cat_list = CategoryByUrl.objects.all()
     # form = CategoryForm()
     # return render(request, 'main/create_category.html', context={'cat_list': cat_list, 'form': form, 'error': error})
-    return HttpResponse(user.id)
+    return render(request, '')
 
 
 def index(request):

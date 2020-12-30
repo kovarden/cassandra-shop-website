@@ -135,3 +135,12 @@ STATICFILES_DIRS = [
 ]
 
 AUTHENTICATION_BACKENDS = ('main.authentication.MyBackend',)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/tmp/memcached.sock',
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'

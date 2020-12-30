@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+{{ user }}
+    <form method="post">
+        {% csrf_token %}
+            <div class="alert alert-warning mt-2">
+                {{ form }}
+                <button type="submit" class="btn btn-success">Sign In</button>
+                <span>{{ error }}</span>
+            </div>
+    </form>
+{% endblock %}

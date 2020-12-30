@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Form, NumberInput, Textarea
+from django.forms import ModelForm, TextInput, Form, NumberInput, Textarea, EmailInput, PasswordInput, CharField
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 
@@ -45,18 +45,10 @@ class ProductForm(ModelForm):
         }
 
 
-class AuthorizationForm(AuthenticationForm):
-    def confirm_login_allowed(self, user):
-        if not user.is_active:
-            raise ValidationError(
-                _("This account is inactive."),
-                code='inactive',
-            )
-        if user.username.startswith('b'):
-            raise ValidationError(
-                _("Sorry, accounts starting with 'b' aren't welcome here."),
-                code='no_b_users',
-            )
+class SignInForm(Form):
+    email = CharField(max_length=20, widget=EmailInput())
+    password = CharField(max_length=20, widget=PasswordInput())
+
 
 # class ProductForm(ModelForm):
 #     class Meta:
